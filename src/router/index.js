@@ -13,7 +13,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Index',
+      name: 'index',
       component: Index,
       redirect: '/twoLevelMenu',
       children: [

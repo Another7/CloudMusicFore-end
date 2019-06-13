@@ -1,27 +1,5 @@
 <template>
   <div id="container">
-    <el-dialog :visible.sync="dialogVisible" title="Login" width="50%">
-      <el-form :model="form" :rules="rules" ref="form">
-        <el-form-item prop="email">
-          <el-input placeholder="Account(Email)" v-model="form.email"></el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input placeholder="Password" v-model="form.password"></el-input>
-        </el-form-item>
-        <el-form-item id="button">
-          <el-button @click="demo" id="login" type="primary">
-            Login
-          </el-button>
-          <el-button @click="register()" id="register">
-            Register
-          </el-button>
-        </el-form-item>
-      </el-form>
-      <span class="dialog-footer" slot="footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button @click="dialogVisible = false" type="primary">确 定</el-button>
-      </span>
-    </el-dialog>
     <div id="first_child">
       <img src="../assets/girl.png"/>
       <p>网易云音乐</p>
@@ -45,7 +23,18 @@
     <div id="third_child">
       <input/>
       <p>创作者中心</p>
-      <img @click="demo" alt="" src="../assets/girl.png">
+      <el-dropdown @command="handleCommand" placement="bottom">
+        <span class="el-dropdown-link">
+          <i @click="login()" class="">
+            <img alt="" src="../assets/girl.png" v-if="userStatus.isLogin">
+            <p v-else>登录</p>
+          </i>
+        </span>
+        <el-dropdown-menu slot="dropdown" v-if="userStatus.isLogin">
+          <el-dropdown-item :command="item.key" :key="item.key" v-for="item in dropItem">{{item.value}}
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
   </div>
 </template>
@@ -55,30 +44,49 @@
     name: "OneLevelMenu",
     data() {
       return {
-        dialogVisible: false,
-        form: {
-          email: '',
-          password: ''
+        userStatus: {
+          isLogin: false
         },
-        rules: {
-          email: [{
-            required: true,
-            message: '请输入邮箱地址',
-            trigger: 'blur'
+        dropItem: [
+          {
+            key: "myHome",
+            value: "我的主页"
           },
-            {
-              type: 'email',
-              message: '请输入正确的邮箱地址',
-              trigger: ['blur', 'change']
-            }
-          ]
-        }
+          {
+            key: "myMessage",
+            value: "我的消息"
+          },
+          {
+            key: "personalSetting",
+            value: "个人设置"
+          },
+          {
+            key: "logout",
+            value: "退出"
+          }
+        ]
       }
     },
     methods: {
-      demo() {
-        console.log("demo");
-        this.dialogVisible = true;
+      handleCommand(command) {
+        switch (command) {
+          case "myHome":
+            console.log(command);
+            break;
+          case "myMessage":
+            break;
+          case "personalSetting":
+            break;
+          case "logout":
+            break;
+          default:
+            break;
+        }
+      },
+      login() {
+        this.$router.push({
+          name: "login"
+        })
       }
     }
   }

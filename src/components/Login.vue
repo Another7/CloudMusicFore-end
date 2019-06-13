@@ -57,20 +57,25 @@
     },
     methods: {
       demo() {
-        // this.dialogVisible = true;
         //登录逻辑处理
-        this.axios.get('/data')
+        this.axios.get("http://localhost:8989/users/login", {
+          params: {
+            email: this.form.email,
+            password: this.form.password
+          }
+        })
           .then((response) => {
-            this.form = response.data;
-            if (this.form.email === response.data.email) {
-              console.log("push、、、")
-            } else {
-              console.log("failed")
-            }
+            console.log(response);
+            this.$router.push({
+              name: 'recommend',
+              params: {
+                isLogin: true
+              }
+            });
           })
           .catch(function (error) {
             console.log(error);
-          })
+          });
       },
       register() {
         this.$router.push({
